@@ -23,23 +23,38 @@ def checkExitConditions():
                     return True
     return False
 
+def createNewGeneration(generationNumber):
+    return True
 
+def displayNewGeneration():
+    return True
 
 
 #Initialisation of the visualisation window
 pygame.init();
 window = pygame.display.set_mode((WINDOWHEIGHT, WINDOWWIDTH))
-
+window.fill(BACKGROUNDCOLOUR)
+currentGeneration = 0
+finishedSimulation = False
 
 #Main display loop
-while True:
+while finishedSimulation == False:
 
+    #Allows the user to exit before the simulation is finished
     if checkExitConditions():
         end()
         break
 
     
-    window.fill(BACKGROUNDCOLOUR)
-    
-    
+
+    createNewGeneration(currentGeneration)
+    displayNewGeneration()
+    currentGeneration = currentGeneration + 1
+
+#Displays the end result until the user exits by pressing escape
+if finishedSimulation == True:
+    while True:
+        if checkExitConditions():
+            end()
+        
     
