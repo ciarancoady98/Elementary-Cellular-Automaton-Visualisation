@@ -14,12 +14,14 @@ def end():
     pygame.quit()
 
 #Checks are any of the exit conditions satisified
+#Returns a boolean value
 def checkExitConditions():
     #Pressing escape quits
     for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: 
-                    end()
+                    return True
+    return False
 
 
 
@@ -31,7 +33,13 @@ window = pygame.display.set_mode((WINDOWHEIGHT, WINDOWWIDTH))
 
 #Main display loop
 while True:
+
+    if checkExitConditions():
+        end()
+        break
+
+    
     window.fill(BACKGROUNDCOLOUR)
-    checkExitConditions(1)
+    
     
     
