@@ -9,20 +9,17 @@ TEXTCOLOR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
 GENERATIONCOUNT = 20
 
-#Exits when the simulation is complete
+#Exits pygame
 def end():
     pygame.quit()
 
 #Checks are any of the exit conditions satisified
-def checkExitConditions(currentGeneration):
+def checkExitConditions():
     #Pressing escape quits
     for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: 
                     end()
-    #Reaching the GENERATIONCOUNT quits
-    if currentGeneration == GENERATIONCOUNT:
-        end()
 
 
 
