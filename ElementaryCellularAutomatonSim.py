@@ -3,13 +3,17 @@ from pygame.locals import *
 
 
 #Definition of constants
+#Display values and scaling
 RESOLUTIONSCALE = 4
 WINDOWWIDTH = 155*RESOLUTIONSCALE
 WINDOWHEIGHT = 80*RESOLUTIONSCALE
+SQUAREDIMENSIONS = 5*RESOLUTIONSCALE
+SCREENCENTRE = WINDOWWIDTH/2 - SQUAREDIMENSIONS
+#RGB values
 TEXTCOLOR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
+
 GENERATIONCOUNT = 16
-SQUAREDIMENSIONS = 5*RESOLUTIONSCALE
 
 #Exits pygame
 def end():
@@ -30,7 +34,7 @@ def createNewGeneration(generationNumber):
     return True
 
 def displayNewGeneration():
-    pygame.draw.rect(window,TEXTCOLOR,(300,0,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
+    pygame.draw.rect(window,TEXTCOLOR,(SCREENCENTRE,0,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
     return True
 
 
