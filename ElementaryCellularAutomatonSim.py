@@ -8,7 +8,7 @@ GENERATIONWIDTH = (2*GENERATIONCOUNT) + 1
 
 #Definition of constants
 #Display values and scaling
-RESOLUTIONSCALE = 20
+RESOLUTIONSCALE = 10
 SQUAREDIMENSIONS = 2*RESOLUTIONSCALE
 WINDOWWIDTH = GENERATIONWIDTH*SQUAREDIMENSIONS
 WINDOWHEIGHT = GENERATIONCOUNT*SQUAREDIMENSIONS
@@ -34,20 +34,22 @@ def checkExitConditions():
                     return True
     return False
 
+def applyRule(left, middle, right):
+    return 1
+
 def createNewGeneration():
-    
+    for x in range(1, (GENERATIONWIDTH-1)):
+        currentGeneration[x] = applyRule(lastGeneration[x-1],lastGeneration[x],lastGeneration[x+1])
     return True
 
 def displayNewGeneration():
     rowNumber = currentGenerationCount
     columnNumber = 0
     for x in currentGeneration:
-        print(x)
         if x == 1:
             pygame.draw.rect(window,TEXTCOLOR,(columnNumber*SQUAREDIMENSIONS,rowNumber*SQUAREDIMENSIONS,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
-        print("increment")
         columnNumber = columnNumber+1
-
+        
 #Initialisation of the visualisation window
 pygame.init();
 window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -63,11 +65,7 @@ for x in range(GENERATIONWIDTH):
         firstGeneration.append(1)
     else:  
         firstGeneration.append(0)
-    #print(x)
 currentGeneration = firstGeneration
-
-#for x in currentGeneration:
-    #print(x)
 
 finishedSimulation = False
 
@@ -78,6 +76,7 @@ while finishedSimulation == False:
     if checkExitConditions():
         end()
         break
+    lastGeneration = currentGeneration
     createNewGeneration()
     displayNewGeneration()
     currentGenerationCount = currentGenerationCount + 1
