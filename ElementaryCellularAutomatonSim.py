@@ -48,8 +48,13 @@ pygame.init();
 window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
-currentGeneration = 0
-lastGeneration = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+currentGenerationCount = 0
+lastGeneration = []
+for x in range(GENERATIONWIDTH):
+    if(x == GENERATIONWIDTH/2):
+        lastGeneration.append(1)
+    lastGeneration.append(0)
+currentGeneration = lastGeneration
 finishedSimulation = False
 
 #Main display loop
@@ -59,9 +64,9 @@ while finishedSimulation == False:
     if checkExitConditions():
         end()
         break
-    createNewGeneration(currentGeneration)
+    createNewGeneration(currentGenerationCount)
     displayNewGeneration()
-    currentGeneration = currentGeneration + 1
+    currentGenerationCount = currentGenerationCount + 1
     pygame.display.update()
 
 #Displays the end result until the user exits by pressing escape
