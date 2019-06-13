@@ -3,11 +3,12 @@ from pygame.locals import *
 
 
 #Definition of constants
-WINDOWWIDTH = 600
-WINDOWHEIGHT = 600
+WINDOWWIDTH = 620
+WINDOWHEIGHT = 320
 TEXTCOLOR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
-GENERATIONCOUNT = 20
+GENERATIONCOUNT = 16
+SQUAREDIMENSIONS = 20
 
 #Exits pygame
 def end():
@@ -24,16 +25,19 @@ def checkExitConditions():
     return False
 
 def createNewGeneration(generationNumber):
+    
     return True
 
 def displayNewGeneration():
+    pygame.draw.rect(window,TEXTCOLOR,(300,0,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
     return True
 
 
 #Initialisation of the visualisation window
 pygame.init();
-window = pygame.display.set_mode((WINDOWHEIGHT, WINDOWWIDTH))
+window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 window.fill(BACKGROUNDCOLOUR)
+pygame.display.set_caption("1D Cellular Automata Simulation")
 currentGeneration = 0
 finishedSimulation = False
 
@@ -44,12 +48,10 @@ while finishedSimulation == False:
     if checkExitConditions():
         end()
         break
-
-    
-
     createNewGeneration(currentGeneration)
     displayNewGeneration()
     currentGeneration = currentGeneration + 1
+    pygame.display.update()
 
 #Displays the end result until the user exits by pressing escape
 if finishedSimulation == True:
