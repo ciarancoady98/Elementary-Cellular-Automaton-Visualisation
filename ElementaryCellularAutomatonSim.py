@@ -1,14 +1,14 @@
 import pygame
 from pygame.locals import *
 
-#generate number of cells in next generation 2i+1
-GENERATIONCOUNT = 32
+#Generate number of cells in next generation 2i+1
+GENERATIONCOUNT = 64
 GENERATIONWIDTH = (2*GENERATIONCOUNT) + 1
 
 
 #Definition of constants
 #Display values and scaling
-RESOLUTIONSCALE = 10
+RESOLUTIONSCALE = 2
 SQUAREDIMENSIONS = 2*RESOLUTIONSCALE
 WINDOWWIDTH = GENERATIONWIDTH*SQUAREDIMENSIONS
 WINDOWHEIGHT = GENERATIONCOUNT*SQUAREDIMENSIONS
@@ -16,8 +16,6 @@ SCREENCENTRE = WINDOWWIDTH/2 - SQUAREDIMENSIONS
 #RGB values
 SQUARECOLOUR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
-
-
 
 
 #Exits pygame
@@ -34,11 +32,14 @@ def checkExitConditions():
                     return True
     return False
 
+#Sets a single bit of an integer number at a passed index
 def setBit(number, index):
     mask = 1 << index
     number |= mask
     return number
 
+#Applies the corresponding rule from the ruleset
+#Based on the 3 cells from the previous generation
 def applyRule(ruleSet, left, middle, right):
     ruleToApply = 0
     if right == 1:
@@ -49,6 +50,7 @@ def applyRule(ruleSet, left, middle, right):
         ruleToApply = setBit(ruleToApply, 2)
     return int(ruleSet[ruleToApply])
 
+#Calculates the next row in based on the rules and previous row
 def createNewGeneration(ruleSet, currentGeneration, newGeneration):
     newGeneration.append(0)
     for x in range(1, (GENERATIONWIDTH-1)):
@@ -56,6 +58,7 @@ def createNewGeneration(ruleSet, currentGeneration, newGeneration):
     newGeneration.append(0)
     return newGeneration
 
+#Iterates through the new row and prints it to the pygame canvas
 def displayNewGeneration(newGeneration, currentGenerationCount):
     rowNumber = currentGenerationCount
     columnNumber = 0
@@ -66,7 +69,7 @@ def displayNewGeneration(newGeneration, currentGenerationCount):
 
 
 
-#set up the cellular automata rule for the prev 3 cells
+#Set up the Cellular Automata rule for the prev 3 cells
 ruleString = input("Please enter 1 or 0 for each of the 8 switches e.g 01111110 : ")
 if len(ruleString) != 8 :
     ruleString = "01111110"
@@ -79,10 +82,12 @@ window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
 
+#Runtime variables
 finishedSimulation = False
 currentGenerationCount = 0
 
 #Setup the list containing the first generation
+#I have picked a single cell in the centre to be turned on
 currentGeneration = []
 for x in range(GENERATIONWIDTH):
     if(x == GENERATIONCOUNT):
@@ -96,19 +101,22 @@ pygame.display.update()
 
 #Main display loop
 while finishedSimulation == False:
-    
-    #Allows the user to exit before the simulation is finished
-    if checkExitConditions():
-        end()
+    #If the simulation has moved off the screen stop displaying
+    if currentGenerationCount == GENERATIONCOUNT:
+        finishedSimulation = True
         break
+    #Create the new generation
     newGeneration = []
     newGeneration = createNewGeneration(ruleSet, currentGeneration, newGeneration)
+    #Add it to the canvas
     displayNewGeneration(newGeneration, currentGenerationCount)
     currentGenerationCount += 1
     currentGeneration = newGeneration.copy()
+    #Update the display to show the changes
     pygame.display.update()
 
 #Displays the end result until the user exits by pressing escape
+print("done")
 if finishedSimulation == True:
     while True:
         if checkExitConditions():
