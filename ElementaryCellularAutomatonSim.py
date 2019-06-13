@@ -70,7 +70,7 @@ def displayNewGeneration(newGeneration, currentGenerationCount):
 
 
 #Set up the Cellular Automata rule for the prev 3 cells
-ruleString = input("Please enter 1 or 0 for each of the 8 switches e.g 01111110 : ")
+ruleString = input("Please enter 1 or 0 for each element of the ruleset e.g 01111110 : ")
 if len(ruleString) != 8 :
     ruleString = "01111110"
 ruleSet = list(ruleString)    #convert string to list
