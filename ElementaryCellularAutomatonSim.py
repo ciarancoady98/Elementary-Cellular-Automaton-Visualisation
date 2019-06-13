@@ -1,19 +1,24 @@
 import pygame
 from pygame.locals import *
 
+#generate number of cells in next generation 2i+1
+GENERATIONCOUNT = 32
+GENERATIONWIDTH = (2*GENERATIONCOUNT) + 1
+
 
 #Definition of constants
 #Display values and scaling
-RESOLUTIONSCALE = 4
-WINDOWWIDTH = 155*RESOLUTIONSCALE
-WINDOWHEIGHT = 80*RESOLUTIONSCALE
-SQUAREDIMENSIONS = 5*RESOLUTIONSCALE
+RESOLUTIONSCALE = 10
+WINDOWWIDTH = GENERATIONWIDTH*RESOLUTIONSCALE
+WINDOWHEIGHT = GENERATIONCOUNT*RESOLUTIONSCALE
+SQUAREDIMENSIONS = 2*RESOLUTIONSCALE
 SCREENCENTRE = WINDOWWIDTH/2 - SQUAREDIMENSIONS
 #RGB values
 TEXTCOLOR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
 
-GENERATIONCOUNT = 16
+
+
 
 #Exits pygame
 def end():
@@ -44,6 +49,7 @@ window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
 currentGeneration = 0
+lastGeneration = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 finishedSimulation = False
 
 #Main display loop
