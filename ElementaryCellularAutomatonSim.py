@@ -39,27 +39,27 @@ def setBit(number, index):
     number |= mask
     return number
 
-def applyRule(left, middle, right):
-    binaryRep = 0
+def applyRule(ruleSet, left, middle, right):
+    ruleToApply = 0
     if right == 1:
-        binaryRep = setBit(binaryRep, 0)
+        ruleToApply = setBit(ruleToApply, 0)
     if middle == 1:
-        binaryRep = setBit(binaryRep, 1)
+        ruleToApply = setBit(ruleToApply, 1)
     if left == 1:
-        binaryRep = setBit(binaryRep, 2)
-        print(binaryRep)
-    return ruleSet[binaryRep]
+        ruleToApply = setBit(ruleToApply, 2)
+    return int(ruleSet[ruleToApply])
 
-def createNewGeneration():
+def createNewGeneration(ruleSet, currentGeneration, newGeneration):
+    newGeneration.append(0)
     for x in range(1, (GENERATIONWIDTH-1)):
-        currentGeneration = []
-        currentGeneration.append(applyRule(lastGeneration[x-1],lastGeneration[x],lastGeneration[x+1]))
-    return True
+        newGeneration.append(applyRule(ruleSet,currentGeneration[x-1],currentGeneration[x],currentGeneration[x+1]))
+    newGeneration.append(0)
+    return newGeneration
 
-def displayNewGeneration():
+def displayNewGeneration(newGeneration, currentGenerationCount):
     rowNumber = currentGenerationCount
     columnNumber = 0
-    for x in currentGeneration:
+    for x in newGeneration:
         if x == 1:
             pygame.draw.rect(window,SQUARECOLOUR,(columnNumber*SQUAREDIMENSIONS,rowNumber*SQUAREDIMENSIONS,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
         columnNumber = columnNumber+1
@@ -67,12 +67,11 @@ def displayNewGeneration():
 
 
 #set up the cellular automata rule for the prev 3 cells
-ruleNumber = input("Please enter 1 or 0 for each of the 8 switches e.g 01111110 : ")
-if len(ruleNumber) != 8 :
-    ruleNumber = "01111110"
-cellAutoRule = list(ruleNumber)    #convert string to list
-cellAutoRule.reverse()             #reverse the list for easier use in the algorithm
-#print("cell rules : ", cellAutoRule)
+ruleString = input("Please enter 1 or 0 for each of the 8 switches e.g 01111110 : ")
+if len(ruleString) != 8 :
+    ruleString = "01111110"
+ruleSet = list(ruleString)    #convert string to list
+ruleSet.reverse()             #reverse the list for easier use in the algorithm
         
 #Initialisation of the visualisation window
 pygame.init();
@@ -80,30 +79,33 @@ window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
 
+finishedSimulation = False
 currentGenerationCount = 0
-ruleSet = [0,1,1,1,1,1,1,0]
+
 #Setup the list containing the first generation
-firstGeneration = []
+currentGeneration = []
 for x in range(GENERATIONWIDTH):
     if(x == GENERATIONCOUNT):
-        firstGeneration.append(1)
+        currentGeneration.append(1)
     else:  
-        firstGeneration.append(0)
-currentGeneration = firstGeneration
+        currentGeneration.append(0)
+displayNewGeneration(currentGeneration, currentGenerationCount)
+currentGenerationCount += 1
+pygame.display.update()
 
-finishedSimulation = False
 
 #Main display loop
 while finishedSimulation == False:
-
+    
     #Allows the user to exit before the simulation is finished
     if checkExitConditions():
         end()
         break
-    lastGeneration = currentGeneration
-    createNewGeneration()
-    displayNewGeneration()
-    currentGenerationCount = currentGenerationCount + 1
+    newGeneration = []
+    newGeneration = createNewGeneration(ruleSet, currentGeneration, newGeneration)
+    displayNewGeneration(newGeneration, currentGenerationCount)
+    currentGenerationCount += 1
+    currentGeneration = newGeneration.copy()
     pygame.display.update()
 
 #Displays the end result until the user exits by pressing escape
