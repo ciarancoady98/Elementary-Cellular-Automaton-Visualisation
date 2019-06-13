@@ -14,7 +14,7 @@ WINDOWWIDTH = GENERATIONWIDTH*SQUAREDIMENSIONS
 WINDOWHEIGHT = GENERATIONCOUNT*SQUAREDIMENSIONS
 SCREENCENTRE = WINDOWWIDTH/2 - SQUAREDIMENSIONS
 #RGB values
-TEXTCOLOR = (255, 255, 255)
+SQUARECOLOUR = (255, 255, 255)
 BACKGROUNDCOLOUR = (0, 0, 0)
 
 
@@ -47,8 +47,18 @@ def displayNewGeneration():
     columnNumber = 0
     for x in currentGeneration:
         if x == 1:
-            pygame.draw.rect(window,TEXTCOLOR,(columnNumber*SQUAREDIMENSIONS,rowNumber*SQUAREDIMENSIONS,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
+            pygame.draw.rect(window,SQUARECOLOUR,(columnNumber*SQUAREDIMENSIONS,rowNumber*SQUAREDIMENSIONS,SQUAREDIMENSIONS,SQUAREDIMENSIONS))
         columnNumber = columnNumber+1
+
+
+
+#set up the cellular automata rule for the prev 3 cells
+ruleNumber = input("Please enter 1 or 0 for each of the 8 switches e.g 01111110 : ")
+if len(ruleNumber) != 8 :
+    ruleNumber = "01111110"
+cellAutoRule = list(ruleNumber)    #convert string to list
+cellAutoRule.reverse()             #reverse the list for easier use in the algorithm
+#print("cell rules : ", cellAutoRule)
         
 #Initialisation of the visualisation window
 pygame.init();
@@ -57,7 +67,7 @@ window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
 
 currentGenerationCount = 0
-
+ruleSet = [
 #Setup the list containing the first generation
 firstGeneration = []
 for x in range(GENERATIONWIDTH):
