@@ -121,5 +121,6 @@ if finishedSimulation == True:
     while True:
         if checkExitConditions():
             end()
+            break
         
     
