@@ -34,12 +34,26 @@ def checkExitConditions():
                     return True
     return False
 
+def setBit(number, index):
+    mask = 1 << index
+    number |= mask
+    return number
+
 def applyRule(left, middle, right):
-    return 1
+    binaryRep = 0
+    if right == 1:
+        binaryRep = setBit(binaryRep, 0)
+    if middle == 1:
+        binaryRep = setBit(binaryRep, 1)
+    if left == 1:
+        binaryRep = setBit(binaryRep, 2)
+        print(binaryRep)
+    return ruleSet[binaryRep]
 
 def createNewGeneration():
     for x in range(1, (GENERATIONWIDTH-1)):
-        currentGeneration[x] = applyRule(lastGeneration[x-1],lastGeneration[x],lastGeneration[x+1])
+        currentGeneration = []
+        currentGeneration.append(applyRule(lastGeneration[x-1],lastGeneration[x],lastGeneration[x+1]))
     return True
 
 def displayNewGeneration():
@@ -67,7 +81,7 @@ window.fill(BACKGROUNDCOLOUR)
 pygame.display.set_caption("1D Cellular Automata Simulation")
 
 currentGenerationCount = 0
-ruleSet = [
+ruleSet = [0,1,1,1,1,1,1,0]
 #Setup the list containing the first generation
 firstGeneration = []
 for x in range(GENERATIONWIDTH):
