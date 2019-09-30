@@ -10,4 +10,4 @@ After this a pygame window will open displaying the simulated Automaton. To exit
 
 By default the program will calculate 64 generations but this can be changed by altering the GENERATIONCOUNT variable.
 
-If the pygame window is too big or too small it can be scaled by changing the RESOLUTIONSCALE varibale.
+If the pygame window is too big or too small it can be scaled by changing the RESOLUTIONSCALE variable.
